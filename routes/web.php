@@ -36,6 +36,13 @@ Route::group(['middleware' => 'auth'], function(){
 //admin
 Route::group(['middleware' => 'admin'], function(){
 	Route::get('/admin', 'Admin\AccountController@index')->name('admin');
+
+	Route::get('/logoes', 'Admin\LogoesController@imdex')->name('logoes');
+	Route::get('/logoes/add', 'Admin\LogoesController@addLogoes')->name('logoes.add');
+	Route::get('/logoes/edit/[id]', 'Admin\LogoesController@editLogoes')
+		->where('\d+')
+		->name('logoes.edit');
+	Route:: delete('/logoes/delete', 'Admin\LogoesController@deleteLogoes')->name('logoes.delete');
 	
 });
 

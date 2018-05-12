@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 
+
+
 class RegisterController extends Controller
 {
     /*
@@ -43,18 +45,22 @@ class RegisterController extends Controller
 
     }
 
+/**
+ * Update the specified resource in storage.
+ *
+  * @param Request $request
+  * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+ */
+
+
+
     public function register(Request $request)
     {
-        
-        try { 
-
-        $this->validator($request->all())->validate();
-
-    }catch(\Exception $e) {
-
-       return back()->with('error', $e->getMessage());
-
-    }
+       try {
+           $this->validator($request->all())->validate();
+       }catch(\Exception $e){
+           return back()->with('error', $e->getMessage());
+       }
 
     $name= $request->input('name');
     $email= $request->input('email');

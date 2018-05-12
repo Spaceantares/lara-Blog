@@ -13,6 +13,13 @@
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
+     <!-- alertify-->
+   <!-- standard version -->
+
+
+
+
+    
     <!-- Custom styles for this template -->
     <link href="css/signin.css" rel="stylesheet">
   </head>
@@ -40,6 +47,13 @@
       </div>
       <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
       <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+
+
+    
     </form>
+    <script src="https://cdn.rawgit.com/alertifyjs/alertify.js/v1.0.10/dist/js/alertify.js"></script>
+
+    @include('inc.messages')
+
   </body>
 </html>
