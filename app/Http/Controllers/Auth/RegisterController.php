@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+
+use App\Entities\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -28,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/my/account';
 
     /**
      * Create a new controller instance.
@@ -38,7 +40,50 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+
     }
+
+    public function register(Request $request)
+    {
+        
+        try { 
+
+        $this->validator($request->all())->validate();
+
+    }catch(\Exception $e) {
+
+       return back()->with('error', $e->getMessage());
+
+    }
+
+    $name= $request->input('name');
+    $email= $request->input('email');
+    $password= $request->input('password');
+    $isAuth = $request->has('remember') ? true : false;
+    $objUser = $this->create(['name'=> $name, 'email'=> $email, 'password'=>$password]);
+
+    
+    if(!($objUser instanceof User)) {
+        //throw new \Exception("Can't create object");
+        return back()->with('error', "Can't create object");
+         }
+    
+
+    if($isAuth){ 
+     $this->guard()->login($objUser);
+
+    }
+
+    return redirect(route('account'))->with('success', 'Registration is done') ;
+
+       // event(new Registered($user = $this->create($request->all())));
+
+       // $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+                        ?: redirect($this->redirectPath());
+    }
+
 
     /**
      * Get a validator for an incoming registration request.
@@ -52,6 +97,7 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'password_confirmation' => 'min:6',
         ]);
     }
 
